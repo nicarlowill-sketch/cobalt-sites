@@ -14,7 +14,7 @@ const cobalt = [
   { text: "Custom-built", bold: "for your brand, always" },
   { text: "SEO + GEO optimization", bold: "included" },
   { text: "Direct communication,", bold: "fast responses" },
-  { text: "Revisions", bold: "until it's perfect" },
+  { text: "Revisions", bold: "free revisions" },
   { text: "Mobile-first,", bold: "every single time" },
 ];
 
