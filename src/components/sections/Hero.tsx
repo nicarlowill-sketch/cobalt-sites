@@ -1,154 +1,185 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
+
+const industries = [
+  "RESTAURANT",
+  "BARBERSHOP",
+  "SALON",
+  "CAFE",
+  "CLOTHING BRAND",
+  "GYM",
+  "LAW FIRM",
+  "HOTEL",
+];
+
+const tickerItems = [
+  "Web Design",
+  "Mobile Optimized",
+  "SEO Ready",
+  "48hr Delivery",
+  "Caribbean Built",
+  "Pay When Happy",
+];
 
 export const Hero = () => {
+  const [typed, setTyped] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const indexRef = useRef(0);
+  const charRef = useRef(0);
+  const deletingRef = useRef(false);
+
+  useEffect(() => {
+    const blinkInterval = setInterval(() => setShowCursor((p) => !p), 530);
+
+    const typeInterval = setInterval(() => {
+      const word = industries[indexRef.current];
+      if (!deletingRef.current) {
+        charRef.current++;
+        setTyped(word.slice(0, charRef.current));
+        if (charRef.current >= word.length) {
+          deletingRef.current = true;
+          // Pause before deleting
+          setTimeout(() => {}, 1500);
+        }
+      } else {
+        charRef.current--;
+        setTyped(word.slice(0, charRef.current));
+        if (charRef.current <= 0) {
+          deletingRef.current = false;
+          indexRef.current = (indexRef.current + 1) % industries.length;
+        }
+      }
+    }, deletingRef.current ? 50 : 120);
+
+    return () => {
+      clearInterval(blinkInterval);
+      clearInterval(typeInterval);
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Animated Background Shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="floating-shape w-96 h-96 bg-primary -top-20 -left-20"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1],
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+      {/* Breathing orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full -top-40 -left-40"
+          style={{
+            background: "radial-gradient(circle, hsl(220 100% 43% / 0.2), transparent 70%)",
+            animation: "breathe 8s ease-in-out infinite",
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
-          className="floating-shape w-80 h-80 bg-accent top-1/3 -right-20"
-          animate={{
-            x: [0, -30, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.2, 1],
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full top-1/3 -right-32"
+          style={{
+            background: "radial-gradient(circle, hsl(200 100% 50% / 0.15), transparent 70%)",
+            animation: "breathe 10s ease-in-out infinite 2s",
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
-          className="floating-shape w-64 h-64 bg-primary/50 bottom-20 left-1/4"
-          animate={{
-            x: [0, 40, 0],
-            y: [0, -40, 0],
+        <div
+          className="absolute w-[400px] h-[400px] rounded-full bottom-20 left-1/4"
+          style={{
+            background: "radial-gradient(circle, hsl(220 100% 43% / 0.12), transparent 70%)",
+            animation: "breathe 12s ease-in-out infinite 4s",
           }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      {/* Grid Pattern */}
-      <div 
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)`,
-          backgroundSize: '40px 40px',
-        }}
-      />
+      {/* Scan lines */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="scan-line" />
+        <div className="scan-line" />
+        <div className="scan-line" />
+      </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      {/* Content */}
+      <div className="container mx-auto px-6 relative z-10 pt-24 pb-16">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">
-              Crafting Digital Experiences
+          {/* Eyebrow */}
+          <div className="flex items-center justify-center gap-4 mb-10 reveal">
+            <span className="w-8 h-px bg-accent" />
+            <span className="font-display text-[10px] tracking-[0.4em] text-accent">
+              CARIBBEAN &middot; DIGITAL &middot; EXCELLENCE
             </span>
-          </motion.div>
+            <span className="w-8 h-px bg-accent" />
+          </div>
 
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
-          >
-            We Build
-            <br />
-            <span className="gradient-text">Exceptional</span>
-            <br />
-            Web Experiences
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10"
-          >
-            From concept to launch, we transform ideas into stunning, 
-            high-performance websites that captivate and convert.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Button variant="hero" size="xl" className="group">
-              Start Your Project
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="heroOutline" size="xl">
-              View Our Work
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            {[
-              { value: "150+", label: "Projects Delivered" },
-              { value: "50+", label: "Happy Clients" },
-              { value: "8+", label: "Years Experience" },
-              { value: "99%", label: "Client Satisfaction" },
-            ].map((stat) => (
-              <motion.div
-                key={stat.label}
-                className="text-center"
-                whileHover={{ scale: 1.05 }}
+          {/* Headline */}
+          <h1 className="font-display font-bold leading-tight mb-8 reveal">
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-foreground">
+              YOUR
+            </span>
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-2">
+              <span
+                className="text-transparent"
+                style={{
+                  WebkitTextStroke: "1.5px hsl(200 100% 50%)",
+                }}
               >
-                <div className="text-3xl md:text-4xl font-display font-bold gradient-text">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                {typed}
+              </span>
+              <span
+                className="inline-block w-[3px] h-[0.8em] bg-accent ml-1 align-middle"
+                style={{
+                  opacity: showCursor ? 1 : 0,
+                }}
+              />
+            </span>
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-accent glow-text mt-2">
+              NEEDS A WEBSITE.
+            </span>
+          </h1>
+
+          {/* Subheading */}
+          <p className="text-muted-foreground text-base md:text-lg max-w-[560px] mx-auto mb-10 leading-relaxed reveal">
+            We build fast, bold, conversion-ready websites for Caribbean businesses ready to
+            compete on a global level. Delivered in 48 hours. Built to last.
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center reveal">
+            <a
+              href="#work"
+              className="clip-btn bg-accent text-accent-foreground font-display text-xs tracking-wider px-8 py-3.5 font-semibold hover:shadow-[0_0_24px_hsl(200_100%_50%/0.4)] transition-shadow duration-300 text-center"
+            >
+              View Our Work
+            </a>
+            <a
+              href="#contact"
+              className="clip-btn border border-accent/50 text-foreground font-display text-xs tracking-wider px-8 py-3.5 font-semibold hover:bg-accent/10 hover:border-accent transition-all duration-300 text-center"
+            >
+              Get a Free Demo
+            </a>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="flex justify-center mt-20 reveal">
+          <div className="relative w-px h-12 bg-border">
+            <div
+              className="absolute w-1.5 h-1.5 rounded-full bg-accent left-1/2 -translate-x-1/2"
+              style={{ animation: "pulse-down 2s ease-in-out infinite" }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center pt-2"
+      {/* Ticker */}
+      <div className="border-t border-border bg-background/80 py-3 overflow-hidden">
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: "ticker 30s linear infinite" }}
         >
-          <motion.div
-            animate={{ opacity: [1, 0], y: [0, 10] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1.5 h-1.5 bg-primary rounded-full"
-          />
-        </motion.div>
-      </motion.div>
+          {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
+            <span
+              key={i}
+              className={`font-display text-[10px] tracking-[0.3em] mx-6 ${
+                i % 2 === 0 ? "text-muted-foreground" : "text-accent"
+              }`}
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

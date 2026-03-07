@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { name: "Services", href: "#services" },
-  { name: "Work", href: "#work" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
+  { name: "SERVICES", href: "#services" },
+  { name: "WHY US", href: "#why-us" },
+  { name: "PRICING", href: "#pricing" },
+  { name: "CONTACT", href: "#contact" },
 ];
 
 export const Navbar = () => {
@@ -15,94 +13,80 @@ export const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "glass-card py-3" : "bg-transparent py-6"
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-background/80 backdrop-blur-xl border-b border-border"
+          : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
-        <motion.a
-          href="#"
-          className="font-display text-2xl font-bold gradient-text"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          NexaDev
-        </motion.a>
+      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <a href="#" className="font-display text-lg font-bold tracking-wider text-foreground">
+          COBALT<span className="text-accent">.</span>SITES
+        </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link, index) => (
-            <motion.a
+          {navLinks.map((link) => (
+            <a
               key={link.name}
               href={link.href}
-              className="text-muted-foreground hover:text-foreground transition-colors duration-300 relative group"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              className="text-xs tracking-[0.2em] text-muted-foreground hover:text-accent transition-colors duration-300 relative group"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
-            </motion.a>
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-300" />
+            </a>
           ))}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Button variant="hero" size="lg">
-              Start Project
-            </Button>
-          </motion.div>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* CTA */}
+        <a
+          href="#contact"
+          className="hidden md:inline-block clip-btn bg-accent text-accent-foreground font-display text-xs tracking-wider px-6 py-2.5 font-semibold hover:shadow-[0_0_20px_hsl(200_100%_50%/0.4)] transition-shadow duration-300"
+        >
+          Start a Project
+        </a>
+
+        {/* Mobile toggle */}
         <button
-          className="md:hidden text-foreground p-2"
+          className="md:hidden text-foreground"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
         >
           {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.nav
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass-card mt-2 mx-4 rounded-xl overflow-hidden"
-          >
-            <div className="p-6 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors py-2"
-                  onClick={() => setIsMobileOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
-              <Button variant="hero" size="lg" className="mt-2">
-                Start Project
-              </Button>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      {/* Mobile Nav */}
+      {isMobileOpen && (
+        <nav className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border">
+          <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-sm tracking-[0.15em] text-muted-foreground hover:text-accent transition-colors py-2"
+                onClick={() => setIsMobileOpen(false)}
+              >
+                {link.name}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              className="clip-btn bg-accent text-accent-foreground font-display text-xs tracking-wider px-6 py-3 font-semibold text-center mt-2"
+              onClick={() => setIsMobileOpen(false)}
+            >
+              Start a Project
+            </a>
+          </div>
+        </nav>
+      )}
+    </header>
   );
 };
