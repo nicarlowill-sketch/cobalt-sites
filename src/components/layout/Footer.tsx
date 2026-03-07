@@ -8,13 +8,13 @@ export const Footer = () => {
           <motion.a
             href="#"
             className="font-display text-2xl font-bold gradient-text"
-            whileHover={{ scale: 1.05 }}
-          >
-            NexaDev
+            whileHover={{ scale: 1.05 }}>
+            
+            ​Cobalt Sites 
           </motion.a>
 
           <p className="text-muted-foreground text-sm">
-            © 2024 NexaDev. All rights reserved.
+            © 2026 Cobalt Sites. All rights reserved.
           </p>
 
           <div className="flex gap-6">
@@ -27,6 +27,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
