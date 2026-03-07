@@ -1,191 +1,131 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
-const contactInfo = [
+const contactDetails = [
   {
-    icon: Mail,
-    title: "Email",
-    value: "hello@nexadev.com",
-    href: "mailto:hello@nexadev.com",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    ),
+    label: "LOCATION",
+    value: "Jamaica, Caribbean",
   },
   {
-    icon: Phone,
-    title: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    ),
+    label: "DELIVERY",
+    value: "48 hours from brief to live site",
   },
   {
-    icon: MapPin,
-    title: "Location",
-    value: "San Francisco, CA",
-    href: "#",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    ),
+    label: "WHATSAPP",
+    value: "+1 (876) XXX-XXXX",
+  },
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    ),
+    label: "INSTAGRAM",
+    value: "@cobaltsites",
   },
 ];
 
 export const Contact = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((r) => setTimeout(r, 1000));
     toast({
       title: "Message sent!",
       description: "We'll get back to you within 24 hours.",
     });
-    
     setIsSubmitting(false);
   };
 
   return (
-    <section id="contact" className="py-32 relative">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-16"
-        >
-          <span className="text-primary font-medium mb-4 block">Get In Touch</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-            Let's Build Something
-            <br />
-            <span className="gradient-text">Amazing Together</span>
+    <section id="contact" className="py-24 relative z-10">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16 reveal">
+          <span className="font-display text-[10px] tracking-[0.3em] text-accent mb-4 block">
+            CONTACT
+          </span>
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+            Start With a <span className="text-accent glow-text">Free Demo.</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Ready to start your next project? We'd love to hear from you. 
-            Send us a message and we'll respond as soon as possible.
+          <p className="text-muted-foreground text-sm max-w-lg mx-auto">
+            Tell us about your business. We build a free demo — no payment, no commitment. If you love it, we go live.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
-          >
-            <form onSubmit={handleSubmit} className="glass-card p-8 space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Name</label>
-                  <Input
-                    placeholder="John Doe"
-                    className="bg-secondary/50 border-border focus:border-primary"
-                    required
-                  />
+        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto reveal">
+          {/* Contact details */}
+          <div className="flex flex-col justify-center space-y-6">
+            {contactDetails.map((d) => (
+              <div key={d.label} className="flex items-start gap-4">
+                <div className="w-10 h-10 border border-accent/30 flex items-center justify-center flex-shrink-0 text-accent">
+                  {d.icon}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input
-                    type="email"
-                    placeholder="john@example.com"
-                    className="bg-secondary/50 border-border focus:border-primary"
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Subject</label>
-                <Input
-                  placeholder="Project Inquiry"
-                  className="bg-secondary/50 border-border focus:border-primary"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Message</label>
-                <Textarea
-                  placeholder="Tell us about your project..."
-                  rows={5}
-                  className="bg-secondary/50 border-border focus:border-primary resize-none"
-                  required
-                />
-              </div>
-              <Button
-                type="submit"
-                variant="hero"
-                size="lg"
-                className="w-full"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Send Message
-                    <Send className="w-4 h-4 ml-2" />
-                  </>
-                )}
-              </Button>
-            </form>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col justify-center space-y-8"
-          >
-            {contactInfo.map((info, index) => (
-              <motion.a
-                key={info.title}
-                href={info.href}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                whileHover={{ x: 10 }}
-                className="flex items-center gap-6 group"
-              >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <info.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-sm">{info.title}</p>
-                  <p className="font-display text-xl font-semibold group-hover:text-primary transition-colors">
-                    {info.value}
+                  <p className="font-display text-[10px] tracking-[0.2em] text-accent mb-1">
+                    {d.label}
                   </p>
+                  <p className="text-muted-foreground text-sm">{d.value}</p>
                 </div>
-              </motion.a>
-            ))}
-
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.7 }}
-              className="pt-8 border-t border-border"
-            >
-              <p className="text-muted-foreground mb-4">Follow us</p>
-              <div className="flex gap-4">
-                {["Twitter", "LinkedIn", "Dribbble", "GitHub"].map((social) => (
-                  <motion.a
-                    key={social}
-                    href="#"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="px-4 py-2 rounded-lg border border-border hover:border-primary hover:text-primary transition-colors"
-                  >
-                    {social}
-                  </motion.a>
-                ))}
               </div>
-            </motion.div>
-          </motion.div>
+            ))}
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                required
+                className="clip-input w-full bg-card border border-border px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:shadow-[0_0_12px_hsl(200_100%_50%/0.2)] outline-none transition-all"
+              />
+              <input
+                type="text"
+                placeholder="Business Name"
+                className="clip-input w-full bg-card border border-border px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:shadow-[0_0_12px_hsl(200_100%_50%/0.2)] outline-none transition-all"
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Email or WhatsApp"
+              required
+              className="clip-input w-full bg-card border border-border px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:shadow-[0_0_12px_hsl(200_100%_50%/0.2)] outline-none transition-all"
+            />
+            <select
+              className="clip-input w-full bg-card border border-border px-4 py-3 text-sm text-muted-foreground focus:border-accent focus:shadow-[0_0_12px_hsl(200_100%_50%/0.2)] outline-none transition-all appearance-none"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Package Interest
+              </option>
+              <option>Starter</option>
+              <option>Standard</option>
+              <option>Premium</option>
+              <option>Not sure yet</option>
+            </select>
+            <textarea
+              placeholder="Tell us about your business..."
+              rows={4}
+              className="clip-input w-full bg-card border border-border px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:shadow-[0_0_12px_hsl(200_100%_50%/0.2)] outline-none transition-all resize-none"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="clip-btn w-full bg-accent text-accent-foreground font-display text-xs tracking-wider px-6 py-3.5 font-semibold hover:shadow-[0_0_20px_hsl(200_100%_50%/0.4)] transition-shadow duration-300 disabled:opacity-50"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
         </div>
       </div>
     </section>
