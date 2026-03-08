@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 const contactDetails = [
   {
@@ -37,6 +39,8 @@ export const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,9 +75,14 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative z-10">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 reveal">
+    <section id="contact" className="py-32 relative z-10">
+      <div className="container mx-auto px-6" ref={ref}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="font-display text-[10px] tracking-[0.3em] text-accent mb-4 block">
             CONTACT
           </span>
@@ -83,14 +92,25 @@ export const Contact = () => {
           <p className="text-muted-foreground text-sm max-w-lg mx-auto">
             Tell us about your business. We build a free demo — no payment, no commitment. If you love it, we go live.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto reveal">
+        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Contact details */}
-          <div className="flex flex-col justify-center space-y-6">
-            {contactDetails.map((d) => (
-              <div key={d.label} className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-accent/30 flex items-center justify-center flex-shrink-0 text-accent">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex flex-col justify-center space-y-6"
+          >
+            {contactDetails.map((d, i) => (
+              <motion.div
+                key={d.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
+                className="flex items-start gap-4"
+              >
+                <div className="w-10 h-10 border border-accent/30 flex items-center justify-center flex-shrink-0 text-accent hover:bg-accent/10 transition-colors duration-300">
                   {d.icon}
                 </div>
                 <div>
@@ -110,19 +130,29 @@ export const Contact = () => {
                     <p className="text-muted-foreground text-sm">{d.value}</p>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Form */}
           {isSuccess ? (
-            <div className="flex items-center justify-center min-h-[300px]">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center justify-center min-h-[300px]"
+            >
               <p className="font-display text-accent text-center text-lg glow-text">
                 Message sent! We'll be in touch within 24 hours.
               </p>
-            </div>
+            </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <motion.form
+              initial={{ opacity: 0, x: 40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
               <div className="grid sm:grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -174,7 +204,7 @@ export const Contact = () => {
               {error && (
                 <p className="text-destructive text-sm text-center">{error}</p>
               )}
-            </form>
+            </motion.form>
           )}
         </div>
       </div>

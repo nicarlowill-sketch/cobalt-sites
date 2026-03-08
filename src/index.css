@@ -171,3 +171,25 @@
   0% { top: 0; opacity: 1; }
   100% { top: 30px; opacity: 0; }
 }
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 0 8px hsl(200 100% 50% / 0.3), 0 0 20px hsl(200 100% 50% / 0.1); }
+  50% { box-shadow: 0 0 16px hsl(200 100% 50% / 0.5), 0 0 40px hsl(200 100% 50% / 0.2); }
+}
+
+@layer components {
+  .hero-cta-glow {
+    animation: ctaGlow 2.5s ease-in-out infinite;
+  }
+
+  .hero-cta-glow:hover {
+    animation: none;
+    box-shadow: 0 0 24px hsl(200 100% 50% / 0.5), 0 0 48px hsl(200 100% 50% / 0.25);
+  }
+}

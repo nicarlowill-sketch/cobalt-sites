@@ -1,9 +1,32 @@
 import { motion } from "framer-motion";
 
+const sisterProducts = [
+  { name: "DropMenu", href: "#" },
+  { name: "Bookd", href: "#" },
+  { name: "Flowsell", href: "#" },
+  { name: "Rival", href: "#" },
+];
+
 export const Footer = () => {
   return (
     <footer className="py-12 border-t border-border">
       <div className="container mx-auto px-6">
+        {/* Sister products row */}
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 mb-8 text-xs text-muted-foreground">
+          <span>Part of the Cobalt ecosystem:</span>
+          {sisterProducts.map((p, i) => (
+            <span key={p.name}>
+              <a
+                href={p.href}
+                className="hover:text-accent transition-colors duration-300"
+              >
+                {p.name}
+              </a>
+              {i < sisterProducts.length - 1 && <span className="ml-2">·</span>}
+            </span>
+          ))}
+        </div>
+
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center md:items-start gap-2">
             <motion.a
@@ -24,7 +47,7 @@ export const Footer = () => {
               href="https://wa.me/18762888379"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-colors"
+              className="text-muted-foreground hover:text-accent hover:scale-110 transition-all duration-300"
               aria-label="WhatsApp"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -35,7 +58,7 @@ export const Footer = () => {
               href="https://instagram.com/cobaltsites"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-colors"
+              className="text-muted-foreground hover:text-accent hover:scale-110 transition-all duration-300"
               aria-label="Instagram"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

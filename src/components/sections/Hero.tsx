@@ -37,7 +37,6 @@ export const Hero = () => {
         setTyped(word.slice(0, charRef.current));
         if (charRef.current >= word.length) {
           deletingRef.current = true;
-          // Pause before deleting
           setTimeout(() => {}, 1500);
         }
       } else {
@@ -58,6 +57,18 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+      {/* Animated gradient behind headline */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(135deg, hsl(220 100% 43% / 0.15), hsl(200 100% 50% / 0.08), hsl(240 60% 2% / 0.9))",
+            backgroundSize: "400% 400%",
+            animation: "gradientShift 12s ease-in-out infinite",
+          }}
+        />
+      </div>
+
       {/* Breathing orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -102,12 +113,12 @@ export const Hero = () => {
             <span className="w-8 h-px bg-accent" />
           </div>
 
-          {/* Headline */}
+          {/* Headline — 96px on desktop */}
           <h1 className="font-display font-bold leading-tight mb-8 reveal">
-            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-foreground">
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-[96px] text-foreground">
               YOUR
             </span>
-            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-2">
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-[96px] mt-2">
               <span
                 className="text-transparent"
                 style={{
@@ -123,22 +134,36 @@ export const Hero = () => {
                 }}
               />
             </span>
-            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-accent glow-text mt-2">
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-[96px] text-accent glow-text mt-2">
               NEEDS A WEBSITE.
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-muted-foreground text-base md:text-lg max-w-[560px] mx-auto mb-10 leading-relaxed reveal">
+          <p className="text-muted-foreground text-base md:text-lg max-w-[560px] mx-auto mb-4 leading-relaxed reveal">
             We build fast, bold, conversion-ready websites for Caribbean businesses ready to
             compete on a global level. Delivered in 48 hours. Built to last.
           </p>
+
+          {/* Jamaica line */}
+          <p className="text-muted-foreground/60 text-sm mb-3 reveal">
+            Based in Jamaica 🇯🇲 · Serving the Caribbean
+          </p>
+
+          {/* Micro-stats */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 reveal">
+            <span className="text-accent/80 text-xs font-display tracking-wider">10+ Sites Built</span>
+            <span className="w-1 h-1 rounded-full bg-accent/40 hidden sm:block" />
+            <span className="text-accent/80 text-xs font-display tracking-wider">100% Client Satisfaction</span>
+            <span className="w-1 h-1 rounded-full bg-accent/40 hidden sm:block" />
+            <span className="text-accent/80 text-xs font-display tracking-wider">48hr Turnaround</span>
+          </div>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center reveal">
             <a
               href="#work"
-              className="clip-btn bg-accent text-accent-foreground font-display text-xs tracking-wider px-8 py-3.5 font-semibold hover:shadow-[0_0_24px_hsl(200_100%_50%/0.4)] transition-shadow duration-300 text-center"
+              className="clip-btn bg-accent text-accent-foreground font-display text-xs tracking-wider px-8 py-3.5 font-semibold transition-shadow duration-300 text-center hero-cta-glow"
             >
               View Our Work
             </a>
