@@ -65,7 +65,7 @@ export const StatsBar = () => {
   }, []);
 
   return (
-    <section ref={ref} className="surface-bg border-y border-border relative z-10">
+    <section ref={ref} className="surface-bg border-y border-border relative z-10 py-2">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((stat, i) => (

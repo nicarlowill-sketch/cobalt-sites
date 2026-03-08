@@ -1,3 +1,7 @@
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+
 const plans = [
   {
     name: "Starter",
@@ -46,23 +50,34 @@ const plans = [
 ];
 
 export const Pricing = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section id="pricing" className="py-24 relative z-10">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 reveal">
+    <section id="pricing" className="py-32 relative z-10">
+      <div className="container mx-auto px-6" ref={ref}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="font-display text-[10px] tracking-[0.3em] text-accent mb-4 block">
             PRICING
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
             Transparent. <span className="text-accent glow-text">No Surprises.</span>
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto reveal">
-          {plans.map((plan) => (
-            <div
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {plans.map((plan, index) => (
+            <motion.div
               key={plan.name}
-              className={`light-sweep border p-8 relative ${
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`light-sweep border p-8 relative hover:border-accent/40 transition-colors duration-300 ${
                 plan.featured
                   ? "border-accent/40 border-t-2 border-t-accent"
                   : "border-border"
@@ -98,13 +113,18 @@ export const Pricing = () => {
               >
                 Get Started
               </a>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-10 reveal">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center text-xs text-muted-foreground mt-10"
+        >
           Monthly retainers from $40 USD/month. All packages include a free demo before any payment.
-        </p>
+        </motion.p>
       </div>
     </section>
   );
