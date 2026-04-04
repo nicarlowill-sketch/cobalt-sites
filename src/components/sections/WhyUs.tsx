@@ -14,7 +14,7 @@ const traditional = [
 
 const cobalt = [
   { text: "48 hour delivery", bold: "from brief to live" },
-  { text: "Pay nothing", bold: "until you love it" },
+  { text: "Pay nothing", bold: "for a demo" },
   { text: "Custom-built", bold: "for your brand, always" },
   { text: "SEO + GEO optimization", bold: "included" },
   { text: "Direct communication,", bold: "fast responses" },
